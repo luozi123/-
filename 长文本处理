@@ -1,0 +1,33 @@
+import wx
+import pyperclip
+ 
+class MemoFrame(wx.Frame):
+    def __init__(self):
+        wx.Frame.__init__(self, None, title="Memo to Clipboard", size=(400, 200))
+ 
+        # 创建面板
+        panel = wx.Panel(self)
+ 
+        # 创建文本框
+        self.memo_ctrl = wx.TextCtrl(panel, pos=(5, 5), size=(385, 100), style=wx.TE_MULTILINE)
+        # 在文本框中添加长文本
+        long_text = "准备将以上代码写一篇博客，请设置几个吸引人的标题。"
+        self.memo_ctrl.SetInsertionPointEnd()
+        self.memo_ctrl.AppendText(long_text)
+        # 创建“复制”按钮
+        copy_button = wx.Button(panel, label='复制', pos=(5, 120))
+        copy_button.Bind(wx.EVT_BUTTON, self.copy_to_clipboard)
+ 
+    def copy_to_clipboard(self, event):
+        # 获取文本框中的内容
+        memo_text = self.memo_ctrl.GetValue()
+ 
+        # 将内容复制到剪贴板中
+        pyperclip.copy(memo_text)
+ 
+ 
+if __name__ == '__main__':
+    app = wx.App()
+    frame = MemoFrame()
+    frame.Show()
+    app.MainLoop()
